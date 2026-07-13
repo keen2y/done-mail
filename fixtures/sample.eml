@@ -1,0 +1,12 @@
+From: Local Tester <tester@example.com>
+To: local@example.com
+Subject: DoneMail local inject sample
+Message-ID: <local-inject-sample@done-mail.local>
+Date: Sun, 12 Jul 2026 12:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+这是一封本地注入的测试邮件。
+
+用于验证收信、列表、搜索和策略是否正常工作。

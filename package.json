@@ -1,0 +1,77 @@
+{
+  "name": "done-mail",
+  "version": "1.0.0",
+  "description": "高性能、自托管的 Cloudflare 收信控制台。",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keen2y/done-mail.git"
+  },
+  "bugs": {
+    "url": "https://github.com/keen2y/done-mail/issues"
+  },
+  "homepage": "https://github.com/keen2y/done-mail#readme",
+  "keywords": [
+    "cloudflare",
+    "cloudflare-workers",
+    "email",
+    "email-routing",
+    "self-hosted",
+    "mail",
+    "d1",
+    "kv",
+    "r2",
+    "vue"
+  ],
+  "type": "module",
+  "scripts": {
+    "local": "npm run build && wrangler dev --config wrangler.local.toml",
+    "inject": "node scripts/inject-local-email.mjs",
+    "seed": "wrangler d1 execute DB --config wrangler.local.toml --local --file scripts/seed-local-preview.sql",
+    "build": "vite build",
+    "docs:local": "vitepress dev docs --host 127.0.0.1 --port 5277",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs --host 127.0.0.1 --port 5277",
+    "check": "npm run check:prod && npm run typecheck && npm run test && npm run build",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "check:prod": "node scripts/check-production-config.mjs",
+    "deploy": "wrangler deploy",
+    "deploy:r2": "wrangler deploy --config wrangler.r2.toml",
+    "deploy:dev": "wrangler deploy --config wrangler.dev.toml"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.20.1",
+    "@codemirror/commands": "^6.10.3",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/state": "^6.6.0",
+    "@codemirror/view": "^6.41.1",
+    "@tanstack/vue-query": "^5.100.9",
+    "axios": "^1.9.0",
+    "element-plus": "^2.10.2",
+    "hono": "^4.12.21",
+    "pinia": "^3.0.4",
+    "postal-mime": "^2.4.3",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250620.0",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitepress": "^1.6.4",
+    "vitest": "^4.1.5",
+    "vue-tsc": "^2.2.10",
+    "wrangler": "^4.93.1"
+  },
+  "allowScripts": {
+    "vue-demi@0.14.10": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.21.5": true,
+    "sharp@0.34.5": true,
+    "esbuild@0.27.3": true,
+    "workerd@1.20260520.1": true
+  }
+}
