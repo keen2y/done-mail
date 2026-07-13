@@ -33,6 +33,7 @@
     "docs:local": "vitepress dev docs --host 127.0.0.1 --port 5277",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs --host 127.0.0.1 --port 5277",
+    "docs:deploy": "npm run docs:build && wrangler deploy --config wrangler.docs.toml",
     "check": "npm run check:prod && npm run typecheck && npm run test && npm run build",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",

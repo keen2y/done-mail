@@ -5,8 +5,12 @@
   align-items: center;
   justify-content: center;
   width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
   min-height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   padding: var(--dm-auth-shell-padding);
   overflow: hidden;
   color: var(--dm-color-text);
