@@ -24,7 +24,7 @@ export default defineConfig({
             return 'vue';
           }
           if (id.includes('@codemirror')) return 'code-editor';
-          if (id.includes('element-plus')) return 'element-plus';
+          // Do not force all of element-plus into one chunk — login only needs form/input.
           if (id.includes('@tanstack/vue-query')) return 'query';
           return undefined;
         }

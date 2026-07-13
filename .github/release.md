@@ -1,5 +1,6 @@
-# v1.0.1 更新说明
+# v1.0.2 更新说明
 
-- 部署命令统一为 `npm run deploy` / `npm run deploy:r2`（R2 附件模式）。
-- 文档与 README：Fork 部署路径、Cloudflare 控制台步骤、部署模式表文案整理。
-- 升级说明：使用 GitHub Sync fork 跟随上游更新。
+- 登录 / 初始化首屏变轻：仅加载认证所需样式与表单组件，进入控制台后再加载完整 UI。
+- 启动时预取 bootstrap，与脚本解析并行，缩短白屏等待。
+- 带 hash 的静态资源使用长期缓存；HTML 保持可快速更新。
+- code-editor 等重依赖仍仅在策略页加载，不影响登录路径。

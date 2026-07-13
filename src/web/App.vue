@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus/es/components/message/index.mjs';
 import { apiErrorMessage, changeAdminKey, logoutSession } from './api/client';
 import McConfirmDialog from './components/McConfirmDialog.vue';
-import McDialog from './components/McDialog.vue';
 import McIcon from './components/McIcon.vue';
+
+const McDialog = defineAsyncComponent(() => import('./components/McDialog.vue'));
 import { footerMetrics } from './composables/footerStatus';
 import { pageRefreshing, runPageRefresh } from './composables/pageRefresh';
 import {

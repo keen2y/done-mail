@@ -44,3 +44,10 @@ export async function loadBootstrap(force = false) {
   applyBootstrapCache(data);
   return data;
 }
+
+/** Fire bootstrap early so it overlaps with JS parse / Vue boot. */
+export function prefetchBootstrap() {
+  void loadBootstrap().catch(() => {
+    // Router guard will retry / surface the error.
+  });
+}

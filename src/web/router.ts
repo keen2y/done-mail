@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteComponent } from 'vue-router';
 import { ref } from 'vue';
 import { loadBootstrap } from './queries/bootstrap';
+import { ensureAppShell } from './shell';
 
 export const routerBootstrapped = ref(false);
 
@@ -72,6 +73,10 @@ router.beforeEach(async (to) => {
   }
   if (to.path === '/login' && state.authenticated) {
     return '/inbox';
+  }
+  // Full UI kit only after auth gate (login/setup stay lean).
+  if (!to.meta.public) {
+    await ensureAppShell();
   }
   return true;
 });

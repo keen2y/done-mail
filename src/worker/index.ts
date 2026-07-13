@@ -32,8 +32,30 @@ function isStaticPath(pathname: string) {
   return pathname.startsWith('/assets/') || pathname.startsWith('/static/') || pathname === '/favicon.svg';
 }
 
+function isHashedAssetPath(pathname: string) {
+  // Vite hashed bundles: /assets/name-AbCdEf12.js
+  return pathname.startsWith('/assets/') && /-[A-Za-z0-9_-]{6,}\.(?:js|css|woff2?|ttf|otf|png|jpe?g|gif|svg|webp|avif)$/i.test(pathname);
+}
+
 function publicEntryRequest(req: Request, url: URL) {
   return new Request(new URL('/public', url), req);
+}
+
+function withAssetCacheHeaders(pathname: string, response: Response) {
+  const headers = new Headers(response.headers);
+  headers.set('X-Content-Type-Options', 'nosniff');
+  if (isHashedAssetPath(pathname)) {
+    headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+  } else if (pathname.startsWith('/static/') || pathname === '/favicon.svg') {
+    headers.set('Cache-Control', 'public, max-age=86400');
+  } else {
+    headers.set('Cache-Control', 'public, max-age=300');
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
 }
 
 function withPublicPageSecurityHeaders(response: Response) {
@@ -118,7 +140,7 @@ export default {
   async fetch(req: Request, env: Env, ctx: ExecutionContext) {
     const url = new URL(req.url);
     if (req.method === 'GET' && isStaticPath(url.pathname)) {
-      return env.ASSETS.fetch(req);
+      return withAssetCacheHeaders(url.pathname, await env.ASSETS.fetch(req));
     }
 
     if (!(await originAllowed(req, env, url))) return notFound();
@@ -145,7 +167,17 @@ export default {
       if (await consumeShareAccessRateLimit(req, env)) return renderShareRateLimitedPage();
       return publicEntryResponse(req, env, url);
     }
-    return env.ASSETS.fetch(req);
+
+    // HTML / SPA shell: short cache so deploys pick up new hashed asset names quickly.
+    const page = await env.ASSETS.fetch(req);
+    const headers = new Headers(page.headers);
+    headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    headers.set('X-Content-Type-Options', 'nosniff');
+    return new Response(page.body, {
+      status: page.status,
+      statusText: page.statusText,
+      headers
+    });
   },
 
   async email(message: ForwardableEmailMessage, env: Env, ctx: ExecutionContext) {

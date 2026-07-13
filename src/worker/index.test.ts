@@ -275,6 +275,24 @@ describe('worker entry guard', () => {
     expect(kv.calls).toEqual([]);
   });
 
+  it('带 hash 的构建资源使用长期缓存', async () => {
+    const env = {
+      KV: createKv(),
+      DB: createDb(),
+      ASSETS: {
+        fetch: async () => new Response('ok', { status: 200, headers: { 'Content-Type': 'application/javascript' } })
+      }
+    } as unknown as Env;
+
+    const hashed = await worker.fetch(new Request('https://example.com/assets/app-CtJzaqJH.js'), env, ctx);
+    const plain = await worker.fetch(new Request('https://example.com/assets/index.js'), env, ctx);
+    const favicon = await worker.fetch(new Request('https://example.com/favicon.svg'), env, ctx);
+
+    expect(hashed.headers.get('Cache-Control')).toBe('public, max-age=31536000, immutable');
+    expect(plain.headers.get('Cache-Control')).toBe('public, max-age=300');
+    expect(favicon.headers.get('Cache-Control')).toBe('public, max-age=86400');
+  });
+
   it('未限制入口的 API 请求会先完成 schema 初始化再处理', async () => {
     const kv = createKv();
     const env = {

@@ -1,0 +1,11 @@
+@import './tokens.css';
+@import './base.css';
+@import './element.css';
+@import './components.css';
+@import './mail.css';
+@import './panels.css';
+@import './dialogs.css';
+@import './policies.css';
+@import './domains.css';
+@import './auth-empty.css';
+@import './responsive.css';
