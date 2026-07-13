@@ -35,13 +35,13 @@
 ## 快速部署
 
 1. 点击 [**Fork**](https://github.com/keen2y/done-mail/fork) 本仓库到你的 GitHub  
-2. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/) → **计算** → **Workers 和 Pages** → **创建应用程序** → **Continue with GitHub**，选中你的 Fork  
+2. 登录 [Cloudflare](https://dash.cloudflare.com/) → **计算** → **Workers 和 Pages** → **创建应用程序** → **Continue with GitHub**，选中你的 Fork  
 3. 构建配置：
 
 | 部署模式 | Build command | Deploy command | 说明 |
 | --- | --- | --- | --- |
-| 默认（无 R2） | `npm run build` | `npm run deploy` | 附件只存元信息（界面若默认是 `npx wrangler deploy`，请改成此命令） |
-| 启用 R2 附件 | `npm run build` | `npm run deploy:r2` | 可保存和下载附件内容 |
+| 默认 | `npm run build` | `npm run deploy` | 附件只存元信息 |
+| 启用 R2 | `npm run build` | `npm run deploy:r2` | 可保存和下载附件内容 |
 
 详细步骤与后续更新见 [使用文档](https://sow.us.kg/deploy/one-click)。
 
