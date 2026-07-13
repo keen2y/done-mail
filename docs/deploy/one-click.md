@@ -1,4 +1,4 @@
-# 部署
+# 开始部署
 
 1. Fork 本仓库  
 2. 在 Cloudflare 连接该 Fork 并部署  
@@ -9,35 +9,23 @@
 1. 打开 [keen2y/done-mail](https://github.com/keen2y/done-mail)  
 2. 点击右上角 **Fork**，fork 到你自己的 GitHub 账号  
 
-## 2. 在 Cloudflare 创建资源
+## 2. 连接 Git 并部署 Worker
 
-在 [Cloudflare Dashboard](https://dash.cloudflare.com/) 中准备（与 `wrangler.toml` 绑定名一致）：
-
-| 资源 | 绑定名 | 说明 |
-| --- | --- | --- |
-| KV | `KV` | 配置中心、管理员 Key、限流等 |
-| D1 | `DB` | 邮件、域名、共享、异常记录等 |
-| R2（可选） | `MAIL_BUCKET` | 仅完整部署需要，用于附件正文存储 |
-
-## 3. 连接 Git 并部署 Worker
-
-1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)  
+1. 登录 [Cloudflare](https://dash.cloudflare.com/)  
 2. 打开 **计算** → **Workers 和 Pages** → **创建应用程序**  
 3. 选择 **Continue with GitHub**，选中 **你的 Fork**（不要选上游 `keen2y/done-mail`）  
 4. 构建配置：
 
 | 模式 | Build command | Deploy command | 说明 |
 | --- | --- | --- | --- |
-| 默认（无 R2） | `npm run build` | `npm run deploy` | 附件只存元信息 |
-| 启用 R2 附件 | `npm run build` | `npm run deploy:r2` | 可保存和下载附件内容 |
-
-界面若预填 `npx wrangler deploy`，请改成上表中的 **Deploy command**（两种模式都走 `npm run …`，更短、一致）。
+| 默认 | `npm run build` | `npm run deploy` | 附件只存元信息 |
+| 启用 R2 | `npm run build` | `npm run deploy:r2` | 可保存和下载附件内容 |
 
 5. 保存并部署，打开 Worker 访问地址  
 
 ![Cloudflare 部署配置示意](/deploy/cloudflare-deploy-config.png)
 
-## 4. 初始化后台
+## 3. 初始化后台
 
 首次打开 DoneMail，创建管理员 Key。
 

@@ -43,7 +43,7 @@ export default defineConfig({
         text: '部署与配置',
         collapsed: false,
         items: [
-          { text: '部署', link: '/deploy/one-click' },
+          { text: '开始部署', link: '/deploy/one-click' },
           { text: '配置中心', link: '/deploy/settings' },
           { text: '域名管理', link: '/deploy/domains' }
         ]
